@@ -1,0 +1,28 @@
+@startuml
+
+participant Operator as op
+participant Kubernetes as k8s
+participant "Head Node 1" as hn1
+participant "Head Node 2" as hn2
+collections "Worker Nodes" as wn
+
+group Setup Ray Cluster
+op -> k8s: Create Head Node
+k8s -> hn1: Launch Head Node 1
+op -> k8s: Create Worker Node
+k8s -> wn: Launch Worker Nodes
+wn -> hn1: Worker Nodes can talk to Head Node 1
+end
+group Head Node 1 Failure
+wn ->x hn1: Worker Nodes failed to connect to Head Node 1
+hn1 x-> k8s: Head Node failed
+k8s -> op: Notification of failed Head Node
+end
+group Recovery Phase
+op -> k8s: Kill Head Node 1
+k8s ->o hn1: Kill Head Node 1
+op -> k8s: Create Head Node 2
+k8s -> hn2: Create Head Node 2
+wn -> hn2: Discovered new Head Node 2
+end
+@enduml
