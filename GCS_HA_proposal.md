@@ -97,9 +97,13 @@ totally new Ray cluster.
 ### Test different behaviors while GCS is down.
 // TODO
 Actor:
+
 Task: already running task vs new task
+
 Placement Group:
+
 Dashboard: 
+
 Ray State API:
 
 ### 
